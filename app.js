@@ -78,22 +78,28 @@ peers.on("connection", async (socket) => {
   console.log(socket.id);
   try {
     socket.emit("welcome", "Welcome to MediaSoup Server");
-    socket.emit("connection-success", { socketId: socket.id });
+    socket.emit("connection-success", {
+      socketId: socket.id,
+      existsProducer: producer ? true : false
+    });
     socket.on("disconnect", () => {
       console.log("socket disconnected");
     });
 
-    router = await worker.createRouter({
-      mediaCodecs
-    });
-
-    socket.on("getRtpCapabilities", async (callback) => {
+    const getRtpCapabilities = (callback) => {
       const rtpCapabilities = router.rtpCapabilities;
-
-      console.log("rtp Capabilities", { rtpCapabilities });
-
-      // call callback from the client and send back the rtpCapabilities
       callback({ rtpCapabilities });
+    };
+
+    socket.on("createRoom", async (callback) => {
+      console.log("createRoom");
+      if (router === undefined) {
+        router = await worker.createRouter({
+          mediaCodecs
+        });
+      }
+
+      getRtpCapabilities(callback);
     });
 
     const createWebRtcTransport = async (callback) => {
