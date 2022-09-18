@@ -1,0 +1,23 @@
+{
+  "name": "examplemediasoup",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MediaSoup Peer to Peer",
+  "main": "index.js",
+  "author": "Anmol Noor",
+  "scripts": {
+    "start": "nodemon app.js",
+    "watch": "watchify public/index.js -o public/bundle.js -v"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1",
+    "httpolyglot": "^0.1.2",
+    "mediasoup": "^3.10.6",
+    "mediasoup-client": "^3.6.57",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2",
+    "watchify": "^4.0.0"
+  }
+}
